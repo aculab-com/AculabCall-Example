@@ -2,11 +2,11 @@
 
 This Example demonstrates use of the AculabCall Component from [react-native-aculab-client](https://www.npmjs.com/package/react-native-aculab-client) package. It allows you to make calls to Aculab cloud services from iOS and Android platforms and to send dtmf. It Also supports peer-to-peer video/audio calls.
 
-Please NOTE that this app needs to run on real devices and does not work with simulators and emulators. Furthermore to run iOS you are expected to install pods and after open example-AculabCall/ios/AculabCallExample.xcworkspace in Xcode
+Please NOTE that this app needs to run on real devices and does not work with simulators and emulators. Furthermore, to run iOS you are expected to install pods and after open ios/AculabCallExample.xcworkspace in Xcode
 
 ---
 
-**This example app is set for Android OS < 11 (API 30) to run this example app on Android 11 and higher, please see AculabCall-README.md (section Add Permissions) and change AndroidManifest.xml and android/build.gradle accordingly.**
+**This example app is set for Android OS < 11 (API 30) to run this example app on Android 11 and higher, please see AculabCall-README.md (section Add Permissions) in [react-native-aculab-client/src](https://github.com/aculab-com/react-native-aculab-client/tree/main/src) and change AndroidManifest.xml and android/build.gradle accordingly.**
 
 ## Installation
 
@@ -14,17 +14,9 @@ Please NOTE that this app needs to run on real devices and does not work with si
 
 ### 2. Install node_modules
 
-+ Install node_modules for the react-native-aculab-client package
++ Install node_modules for the example application
 
-    In the package root folder (react-native-aculab-client) run
-
-    ``` node
-    npm install
-    ```
-
-+ Install node_modules for the example-AculabCall application
-
-    In the example-AculabCall folder (react-native-aculab-client/example-AculabCall) run
+    In the root folder run
 
     ``` node
     npm install
@@ -32,13 +24,13 @@ Please NOTE that this app needs to run on real devices and does not work with si
 
 ### 3. Install the pods for ios
 
-In the example-AculabCall folder (react-native-aculab-client/example-AculabCall) run
+In the root folder run
 
 ``` node
 npx pod-install
 ```
 
-OR install pods directly from ios folder (example-AculabCall/ios) using
+OR install pods directly from ios folder (yourProject/ios) using
 
 ``` node
 pod install
@@ -46,7 +38,7 @@ pod install
 
 ### 4. Manually add DTMF method for android
 
-Open example-AculabCall/node_modules/react-native-webrtc/android/src/main/java/com/oney/WebRTCModule/WebRTCModule.java and into the class WebRTCModule add the method bellow.
+Open yourProject/node_modules/react-native-webrtc/android/src/main/java/com/oney/WebRTCModule/WebRTCModule.java and into the class WebRTCModule add the method bellow.
 
 **If you skip this step, Android platform will throw an error when the method sendDtmf is called.**
 
@@ -65,8 +57,9 @@ public void peerConnectionSendDTMF(String tone, int duration, int interToneGap, 
 
 ### 5. Edit parameters in devConstants.dev.ts to work with your own cloud
 
-You can change default credentials in the react-native-aculab-client/src/devConstants.dev.ts file.
-This step is not required but it makes testing easier, however you can always edit these props in the registration screen via UI in the Example app.
+You can change default credentials in the yourProject/devConstants.dev.ts file.
+This step is not required but it makes testing easier, however you can always edit these props in the registration screen via UI in the Example app.  
+Note: devConstants.dev.ts file has git flag --assume-unchanged.
 
 ```typescript
 const webRTCAccessKey = 'heh0zprmk7okgt...';
@@ -81,4 +74,12 @@ Now you're good to go.
 
 ---
 
-#### Note that and apiAccessKey should not ever be displayed and should be treated as sensitive data. In the Example app they are displayed only to assist developer testing. You should not display this sensitive information in your application
+## Troubleshooting
+
+at the time of writing react-native-callkeep has an issue, that throws an error when building android
+
+'Package androidx.localbroadcastmanager.content does not exist'
+
+The solution to the problem is described [here](https://github.com/react-native-webrtc/react-native-callkeep/issues/594#issuecomment-1196411702).
+
+### Note that and apiAccessKey should not ever be displayed and should be treated as sensitive data. In the Example app they are displayed only to assist developer testing. You should not display this sensitive information in your application
