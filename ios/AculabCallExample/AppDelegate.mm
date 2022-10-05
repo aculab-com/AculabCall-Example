@@ -6,6 +6,8 @@
 
 #import <React/RCTAppSetupUtils.h>
 
+#import "RNCallKeep.h"
+
 #if RCT_NEW_ARCH_ENABLED
 #import <React/CoreModulesPlugins.h>
 #import <React/RCTCxxBridgeDelegate.h>
@@ -129,5 +131,14 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
 }
 
 #endif
+
+- (BOOL)application:(UIApplication *)application
+        continueUserActivity:(nonnull NSUserActivity *)userActivity
+        restorationHandler: (nonnull void (^)(NSArray<id<UIUserActivityRestoring>> *_Nullable))restorationHandler
+{
+  return [RNCallKeep application:application
+            continueUserActivity:userActivity
+            restorationHandler:restorationHandler];
+}
 
 @end
