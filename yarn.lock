@@ -6278,10 +6278,10 @@
   "resolved" "https://registry.npmjs.org/react-is/-/react-is-18.2.0.tgz"
   "version" "18.2.0"
 
-"react-native-aculab-client@file:react-native-aculab-client-1.0.4.tgz":
-  "integrity" "sha512-pb9gT70Bdp6FHjo8XULGmV8bQpB9Sgz8GGT7NJNgxL8sz0J6JQFFXhpF7rMOSUcd7NoVUSLH8hESPSnIpw5lwQ=="
-  "resolved" "file:react-native-aculab-client-1.0.4.tgz"
-  "version" "1.0.4"
+"react-native-aculab-client@^1.1.0-beta":
+  "integrity" "sha512-CHH4zegDOj4h+eTsOOmLG08Izqlq7dQJg6YoAeZk594/0PP3H0C5xU2eBKZkHp7mirDY+z/9mT+GuMzrGN0q9Q=="
+  "resolved" "https://registry.npmjs.org/react-native-aculab-client/-/react-native-aculab-client-1.1.0-beta.tgz"
+  "version" "1.1.0-beta"
   dependencies:
     "aculab-webrtc" "^3.1.1"
     "react-native-base64" "^0.2.1"
@@ -6292,7 +6292,7 @@
   "resolved" "https://registry.npmjs.org/react-native-base64/-/react-native-base64-0.2.1.tgz"
   "version" "0.2.1"
 
-"react-native-callkeep@^4.3.3":
+"react-native-callkeep@*", "react-native-callkeep@^4.3.3":
   "integrity" "sha512-XfzVBB577qQpjhkdrqLgyyvRFqdvjzR+yamtl7hf0aSSiuIdMNTNJFj5wBoXp0Tffm11Jwl0myKXfxrRy+c45w=="
   "resolved" "https://registry.npmjs.org/react-native-callkeep/-/react-native-callkeep-4.3.3.tgz"
   "version" "4.3.3"
