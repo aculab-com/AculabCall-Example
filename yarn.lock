@@ -6278,10 +6278,10 @@
   "resolved" "https://registry.npmjs.org/react-is/-/react-is-18.2.0.tgz"
   "version" "18.2.0"
 
-"react-native-aculab-client@^1.1.0-beta":
-  "integrity" "sha512-CHH4zegDOj4h+eTsOOmLG08Izqlq7dQJg6YoAeZk594/0PP3H0C5xU2eBKZkHp7mirDY+z/9mT+GuMzrGN0q9Q=="
-  "resolved" "https://registry.npmjs.org/react-native-aculab-client/-/react-native-aculab-client-1.1.0-beta.tgz"
-  "version" "1.1.0-beta"
+"react-native-aculab-client@file:react-native-aculab-client-1.2.0.tgz":
+  "integrity" "sha512-V39Y9m2ppcVgmaHCCkaZLu8d81Txqr1Qkh6wajnXgl5httl12Nczx9LxUMG07ef+GdbafI4n/fVcm8wuOgnKhA=="
+  "resolved" "file:react-native-aculab-client-1.2.0.tgz"
+  "version" "1.2.0"
   dependencies:
     "aculab-webrtc" "^3.1.1"
     "react-native-base64" "^0.2.1"

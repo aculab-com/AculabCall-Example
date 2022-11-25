@@ -171,7 +171,7 @@ const CallOutComponent = (props: any) => {
           style={styles.input}
           placeholder={'example: webrtcdemo'}
           placeholderTextColor={COLOURS.INPUT_PLACEHOLDER}
-          onChangeText={(text) =>
+          onChangeText={text =>
             props.aculabCall.setState({
               serviceName: deleteSpaces(text),
             })
@@ -197,7 +197,7 @@ const CallOutComponent = (props: any) => {
           style={styles.input}
           placeholder={'example: anna123'}
           placeholderTextColor={COLOURS.INPUT_PLACEHOLDER}
-          onChangeText={(text) =>
+          onChangeText={text =>
             props.aculabCall.setState({
               callClientId: deleteSpaces(text),
             })
