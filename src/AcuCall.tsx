@@ -185,7 +185,9 @@ const CallOutComponent = (props: AcuCallProps) => {
         />
         <MenuButton
           title={'Call Service'}
-          onPress={() => props.acuCall.callService()}
+          onPress={() =>
+            props.acuCall.startCall('service', props.acuCall.state.serviceName)
+          }
         />
       </View>
       <View>
@@ -203,7 +205,9 @@ const CallOutComponent = (props: AcuCallProps) => {
         />
         <MenuButton
           title={'Call Client'}
-          onPress={() => props.acuCall.callClient()}
+          onPress={() =>
+            props.acuCall.startCall('client', props.acuCall.state.callClientId)
+          }
         />
       </View>
     </View>
@@ -392,6 +396,11 @@ class AcuCall extends AculabCall {
     if (this.state.callUIInteraction === 'answered' && this.state.inboundCall) {
       this.answerCall();
     }
+  }
+
+  onDisconnected(): void {
+    super.onDisconnected();
+    console.log('last call:', this.getLastCall());
   }
 
   CallHeadComponent = (): any => {

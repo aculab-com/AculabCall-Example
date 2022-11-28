@@ -6279,7 +6279,7 @@
   "version" "18.2.0"
 
 "react-native-aculab-client@file:react-native-aculab-client-1.2.0.tgz":
-  "integrity" "sha512-V39Y9m2ppcVgmaHCCkaZLu8d81Txqr1Qkh6wajnXgl5httl12Nczx9LxUMG07ef+GdbafI4n/fVcm8wuOgnKhA=="
+  "integrity" "sha512-o7tFu3cA7p+mxpLonpthYqfUh5LeWxThPzDCf1+/VxLXcQ4xAyO9RiTuYe6TjJqzbpUgd/Cx1qHJwIJ0/dadOw=="
   "resolved" "file:react-native-aculab-client-1.2.0.tgz"
   "version" "1.2.0"
   dependencies:
