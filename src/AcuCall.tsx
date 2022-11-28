@@ -22,21 +22,25 @@ import { RoundButton } from './components/RoundButton';
 import { useNavigation } from '@react-navigation/native';
 import { name as appName } from '../app.json';
 
-const MainCallButtons = (props: any) => {
+interface AcuCallProps {
+  acuCall: AcuCall;
+}
+
+const MainCallButtons = (props: AcuCallProps) => {
   return (
     <View style={styles.callButtonsContainer}>
       <CallButton
         title={'Hang up'}
         colour={COLOURS.RED}
-        onPress={() => props.aculabCall.endCall()}
+        onPress={() => props.acuCall.stopCall()}
       />
       <CallButton
         title={'Speaker'}
         colour={COLOURS.SPEAKER_BUTTON}
         onPress={() =>
-          props.aculabCall.setState(
-            { speakerOn: !props.aculabCall.state.speakerOn },
-            () => turnOnSpeaker(props.aculabCall.state.speakerOn)
+          props.acuCall.setState(
+            { speakerOn: !props.acuCall.state.speakerOn },
+            () => turnOnSpeaker(props.acuCall.state.speakerOn)
           )
         }
       />
@@ -44,19 +48,20 @@ const MainCallButtons = (props: any) => {
   );
 };
 
-const DialKeypad = (props: any) => {
+const DialKeypad = (props: AcuCallProps) => {
   return (
     <View style={styles.dialKeypad}>
-      {props.aculabCall.state.outboundCall ? (
+      {props.acuCall.state.callState === 'calling' ||
+      props.acuCall.state.callState === 'ringing' ? (
         <View>
           <Text style={styles.callingText}>
-            Calling {props.aculabCall.state.serviceName}
+            Calling {props.acuCall.state.serviceName}
           </Text>
         </View>
       ) : (
         <View>
           <Text style={styles.callingText}>
-            Service {props.aculabCall.state.serviceName}
+            Service {props.acuCall.state.serviceName}
           </Text>
         </View>
       )}
@@ -64,57 +69,57 @@ const DialKeypad = (props: any) => {
         <View style={styles.callButtonsContainer}>
           <KeypadButton
             title={'1'}
-            onPress={() => props.aculabCall.sendDtmf('1')}
+            onPress={() => props.acuCall.sendDtmf('1')}
           />
           <KeypadButton
             title={'2'}
-            onPress={() => props.aculabCall.sendDtmf('2')}
+            onPress={() => props.acuCall.sendDtmf('2')}
           />
           <KeypadButton
             title={'3'}
-            onPress={() => props.aculabCall.sendDtmf('3')}
+            onPress={() => props.acuCall.sendDtmf('3')}
           />
         </View>
         <View style={styles.callButtonsContainer}>
           <KeypadButton
             title={'4'}
-            onPress={() => props.aculabCall.sendDtmf('4')}
+            onPress={() => props.acuCall.sendDtmf('4')}
           />
           <KeypadButton
             title={'5'}
-            onPress={() => props.aculabCall.sendDtmf('5')}
+            onPress={() => props.acuCall.sendDtmf('5')}
           />
           <KeypadButton
             title={'6'}
-            onPress={() => props.aculabCall.sendDtmf('6')}
+            onPress={() => props.acuCall.sendDtmf('6')}
           />
         </View>
         <View style={styles.callButtonsContainer}>
           <KeypadButton
             title={'7'}
-            onPress={() => props.aculabCall.sendDtmf('7')}
+            onPress={() => props.acuCall.sendDtmf('7')}
           />
           <KeypadButton
             title={'8'}
-            onPress={() => props.aculabCall.sendDtmf('8')}
+            onPress={() => props.acuCall.sendDtmf('8')}
           />
           <KeypadButton
             title={'9'}
-            onPress={() => props.aculabCall.sendDtmf('9')}
+            onPress={() => props.acuCall.sendDtmf('9')}
           />
         </View>
         <View style={styles.callButtonsContainer}>
           <KeypadButton
             title={'*'}
-            onPress={() => props.aculabCall.sendDtmf('*')}
+            onPress={() => props.acuCall.sendDtmf('*')}
           />
           <KeypadButton
             title={'0'}
-            onPress={() => props.aculabCall.sendDtmf('0')}
+            onPress={() => props.acuCall.sendDtmf('0')}
           />
           <KeypadButton
             title={'#'}
-            onPress={() => props.aculabCall.sendDtmf('#')}
+            onPress={() => props.acuCall.sendDtmf('#')}
           />
         </View>
       </View>
@@ -122,15 +127,15 @@ const DialKeypad = (props: any) => {
   );
 };
 
-const ClientCallButtons = (props: any) => {
+const ClientCallButtons = (props: AcuCallProps) => {
   var videoIcon: string = '';
   var audioIcon: string = '';
-  if (!props.aculabCall.state.camera) {
+  if (!props.acuCall.state.camera) {
     videoIcon = 'eye-off-outline';
   } else {
     videoIcon = 'eye-outline';
   }
-  if (!props.aculabCall.state.mic) {
+  if (!props.acuCall.state.mic) {
     audioIcon = 'mic-off-outline';
   } else {
     audioIcon = 'mic-outline';
@@ -139,22 +144,21 @@ const ClientCallButtons = (props: any) => {
     <View style={styles.callButtonsContainer}>
       <RoundButton
         iconName={'camera-reverse-outline'}
-        onPress={() => props.aculabCall.swapCam()}
+        onPress={() => props.acuCall.swapCam()}
       />
       <RoundButton
         iconName={videoIcon}
         onPress={() =>
-          props.aculabCall.setState(
-            { camera: !props.aculabCall.state.camera },
-            () => props.aculabCall.mute()
+          props.acuCall.setState({ camera: !props.acuCall.state.camera }, () =>
+            props.acuCall.mute()
           )
         }
       />
       <RoundButton
         iconName={audioIcon}
         onPress={() =>
-          props.aculabCall.setState({ mic: !props.aculabCall.state.mic }, () =>
-            props.aculabCall.mute()
+          props.acuCall.setState({ mic: !props.acuCall.state.mic }, () =>
+            props.acuCall.mute()
           )
         }
       />
@@ -162,33 +166,26 @@ const ClientCallButtons = (props: any) => {
   );
 };
 
-const CallOutComponent = (props: any) => {
+const CallOutComponent = (props: AcuCallProps) => {
   return (
     <View style={styles.inputContainer}>
       <View>
         <Text style={styles.basicText}>Service Name</Text>
         <TextInput
           style={styles.input}
-          placeholder={'example: webrtcdemo'}
+          placeholder={'example: --15993377'}
           placeholderTextColor={COLOURS.INPUT_PLACEHOLDER}
           onChangeText={text =>
-            props.aculabCall.setState({
+            props.acuCall.setState({
               serviceName: deleteSpaces(text),
             })
           }
-          value={props.aculabCall.state.serviceName}
+          value={props.acuCall.state.serviceName}
           keyboardType={'ascii-capable'}
         />
         <MenuButton
           title={'Call Service'}
-          onPress={() =>
-            props.aculabCall.getCallUuid(() =>
-              props.aculabCall.startCall(
-                'service',
-                props.aculabCall.state.serviceName
-              )
-            )
-          }
+          onPress={() => props.acuCall.callService()}
         />
       </View>
       <View>
@@ -198,161 +195,168 @@ const CallOutComponent = (props: any) => {
           placeholder={'example: anna123'}
           placeholderTextColor={COLOURS.INPUT_PLACEHOLDER}
           onChangeText={text =>
-            props.aculabCall.setState({
+            props.acuCall.setState({
               callClientId: deleteSpaces(text),
             })
           }
-          value={props.aculabCall.state.callClientId}
+          value={props.acuCall.state.callClientId}
         />
         <MenuButton
           title={'Call Client'}
-          onPress={() =>
-            props.aculabCall.getCallUuid(() =>
-              props.aculabCall.startCall(
-                'client',
-                props.aculabCall.state.callClientId
-              )
-            )
-          }
+          onPress={() => props.acuCall.callClient()}
         />
       </View>
     </View>
   );
 };
 
-const DisplayClientCall = (props: any) => {
-  if (!props.aculabCall.state.remoteStream) {
-    if (props.aculabCall.state.outboundCall) {
-      return (
-        <View style={styles.center}>
-          <Text style={styles.callingText}>
-            Calling {props.aculabCall.state.callClientId}
-          </Text>
-        </View>
-      );
-    } else {
-      return (
-        <View style={styles.center}>
-          <Text style={styles.callingText}>
-            {props.aculabCall.state.callClientId}
-          </Text>
-        </View>
-      );
-    }
-  } else {
-    if (
-      props.aculabCall.state.localVideoMuted &&
-      !props.aculabCall.state.remoteVideoMuted
-    ) {
-      return (
-        <View style={styles.vidview}>
-          <RTCView
-            streamURL={props.aculabCall.state.remoteStream.toURL()}
-            style={styles.rtcview}
-          />
-        </View>
-      );
-    } else if (
-      props.aculabCall.state.remoteVideoMuted &&
-      !props.aculabCall.state.localVideoMuted
-    ) {
-      return (
-        <View style={styles.vidview}>
-          <Image
-            source={require('./media/video_placeholder.png')}
-            style={styles.videoPlaceholder}
-          />
-          <View style={styles.videoPlaceholder}>
-            <Text style={styles.basicText}>NO VIDEO</Text>
-          </View>
-          <View style={styles.rtc}>
-            <RTCView
-              streamURL={props.aculabCall.state.localStream.toURL()}
-              style={styles.rtcselfview}
-            />
-          </View>
-        </View>
-      );
-    } else if (
-      props.aculabCall.state.remoteVideoMuted &&
-      props.aculabCall.state.localVideoMuted
-    ) {
-      return (
-        <View>
-          <Image
-            source={require('./media/video_placeholder.png')}
-            style={styles.videoPlaceholder}
-          />
-          <View style={styles.videoPlaceholder}>
-            <Text style={styles.basicText}>NO VIDEO</Text>
-          </View>
-        </View>
-      );
-    } else {
-      return (
-        <View style={styles.vidview}>
-          <RTCView
-            streamURL={props.aculabCall.state.remoteStream.toURL()}
-            style={styles.rtcview}
-          />
-          <View style={styles.rtc}>
-            <RTCView
-              streamURL={props.aculabCall.state.localStream.toURL()}
-              style={styles.rtcselfview}
-            />
-          </View>
-        </View>
-      );
-    }
-  }
-};
-
-const CallDisplayHandler = (props: any) => {
-  if (props.aculabCall.state.inboundCall) {
+const DisplayClientCall = (props: AcuCallProps) => {
+  if (
+    props.acuCall.state.outboundCall &&
+    props.acuCall.state.callState !== 'connected'
+  ) {
     return (
-      <View style={styles.incomingContainer}>
-        <View style={styles.center}>
-          <Text style={styles.callingText}>Incoming Call</Text>
-          <Text style={styles.callingText}>
-            {props.aculabCall.state.incomingCallClientId}
-          </Text>
-        </View>
+      <View style={styles.center}>
+        <Text style={styles.callingText}>
+          Calling {props.acuCall.state.callClientId}
+        </Text>
       </View>
     );
-  } else if (props.aculabCall.state.callState === 'idle') {
+  } else if (
+    props.acuCall.state.inboundCall &&
+    props.acuCall.state.callState !== 'connected'
+  ) {
     return (
-      <ScrollView>
-        <CallOutComponent aculabCall={props.aculabCall} />
-      </ScrollView>
+      <View style={styles.center}>
+        <Text style={styles.callingText}>
+          Calling {props.acuCall.state.incomingCallClientId}
+        </Text>
+      </View>
     );
   } else {
-    if (props.aculabCall.state.callOptions.receiveVideo) {
-      return <DisplayClientCall aculabCall={props.aculabCall} />;
+    if (props.acuCall.state.remoteStream && props.acuCall.state.localStream) {
+      switch (true) {
+        case props.acuCall.state.localVideoMuted &&
+          !props.acuCall.state.remoteVideoMuted:
+          return (
+            <View style={styles.vidview}>
+              <RTCView
+                // @ts-ignore
+                streamURL={props.acuCall.state.remoteStream.toURL()}
+                style={styles.rtcview}
+              />
+            </View>
+          );
+        case !props.acuCall.state.localVideoMuted &&
+          props.acuCall.state.remoteVideoMuted:
+          return (
+            <View style={styles.vidview}>
+              <Image
+                source={require('./media/video_placeholder.png')}
+                style={styles.videoPlaceholder}
+              />
+              <View style={styles.videoPlaceholder}>
+                <Text style={styles.basicText}>NO VIDEO</Text>
+              </View>
+              <View style={styles.rtc}>
+                <RTCView
+                  // @ts-ignore
+                  streamURL={props.acuCall.state.localStream.toURL()}
+                  style={styles.rtcselfview}
+                />
+              </View>
+            </View>
+          );
+        case props.acuCall.state.localVideoMuted &&
+          props.acuCall.state.remoteVideoMuted:
+          return (
+            <View>
+              <Image
+                source={require('./media/video_placeholder.png')}
+                style={styles.videoPlaceholder}
+              />
+              <View style={styles.videoPlaceholder}>
+                <Text style={styles.basicText}>NO VIDEO</Text>
+              </View>
+            </View>
+          );
+        default:
+          return (
+            <View style={styles.vidview}>
+              <RTCView
+                // @ts-ignore
+                streamURL={props.acuCall.state.remoteStream.toURL()}
+                style={styles.rtcview}
+              />
+              <View style={styles.rtc}>
+                <RTCView
+                  // @ts-ignore
+                  streamURL={props.acuCall.state.localStream.toURL()}
+                  style={styles.rtcselfview}
+                />
+              </View>
+            </View>
+          );
+      }
     } else {
-      return <DialKeypad aculabCall={props.aculabCall} />;
+      return <View />;
     }
   }
 };
 
-const CallButtonsHandler = (props: any) => {
-  if (props.aculabCall.state.inboundCall) {
-    return <View />;
-  } else if (props.aculabCall.state.callState !== 'idle') {
-    if (props.aculabCall.state.callOptions.receiveVideo) {
-      // calling client
-      if (props.aculabCall.state.remoteStream) {
+const CallDisplayHandler = (props: AcuCallProps) => {
+  switch (props.acuCall.state.calling) {
+    case 'client':
+      return <DisplayClientCall acuCall={props.acuCall} />;
+    case 'service':
+      return <DialKeypad acuCall={props.acuCall} />;
+    default:
+      if (props.acuCall.state.inboundCall) {
+        // incoming call display
         return (
-          <View>
-            <ClientCallButtons aculabCall={props.aculabCall} />
-            <MainCallButtons aculabCall={props.aculabCall} />
+          <View style={styles.center}>
+            <Text style={styles.callingText}>Incoming Call</Text>
+            <Text style={styles.callingText}>
+              {props.acuCall.state.incomingCallClientId}
+            </Text>
           </View>
         );
       } else {
-        return <MainCallButtons aculabCall={props.aculabCall} />;
+        // idle display
+        return (
+          <ScrollView>
+            <CallOutComponent acuCall={props.acuCall} />
+          </ScrollView>
+        );
       }
+  }
+};
+
+const CallButtonsHandler = (props: AcuCallProps) => {
+  if (
+    props.acuCall.state.inboundCall &&
+    props.acuCall.state.callState === 'incoming call'
+  ) {
+    //incoming call
+    return <View />;
+  } else if (
+    props.acuCall.state.inboundCall ||
+    props.acuCall.state.outboundCall
+  ) {
+    if (
+      props.acuCall.state.calling === 'client' &&
+      props.acuCall.state.callState === 'connected'
+    ) {
+      // client call connected
+      return (
+        <View>
+          <ClientCallButtons acuCall={props.acuCall} />
+          <MainCallButtons acuCall={props.acuCall} />
+        </View>
+      );
     } else {
-      // calling service
-      return <MainCallButtons aculabCall={props.aculabCall} />;
+      // client call not connected or service call
+      return <MainCallButtons acuCall={props.acuCall} />;
     }
   } else {
     // idle state
@@ -424,10 +428,10 @@ class AcuCall extends AculabCall {
       <SafeAreaView style={styles.height100}>
         <this.CallHeadComponent />
         <View>
-          <CallDisplayHandler aculabCall={this} />
+          <CallDisplayHandler acuCall={this} />
         </View>
         <View style={styles.bottom}>
-          <CallButtonsHandler aculabCall={this} />
+          <CallButtonsHandler acuCall={this} />
         </View>
       </SafeAreaView>
     );
