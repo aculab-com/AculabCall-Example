@@ -1,8 +1,8 @@
 # AculabCall-Example
 
-This Example demonstrates use of the AculabCall Component from [react-native-aculab-client](https://www.npmjs.com/package/react-native-aculab-client) package. It allows you to make calls to Aculab cloud services from iOS and Android platforms and to send dtmf. It Also supports peer-to-peer video/audio calls.
+This Example demonstrates use of the AculabCall Component from the [react-native-aculab-client](https://www.npmjs.com/package/react-native-aculab-client) package. It allows you to make calls to Aculab cloud services from iOS and Android devices and to send dtmf. It Also supports peer-to-peer video/audio calls.
 
-Please NOTE that this app needs to run on real devices and does not work with simulators and emulators. Furthermore, to run iOS you are expected to install pods and after open ios/AculabCallExample.xcworkspace in Xcode
+Please NOTE that this app needs to run on real devices and does not work with simulators and emulators. Furthermore, to run iOS you are expected to install pods and then open ios/AculabCallExample.xcworkspace in Xcode
 
 ---
 
@@ -82,4 +82,4 @@ at the time of writing react-native-callkeep has an issue, that throws an error 
 
 The solution to the problem is described [here](https://github.com/react-native-webrtc/react-native-callkeep/issues/594#issuecomment-1196411702).
 
-### Note that and apiAccessKey should not ever be displayed and should be treated as sensitive data. In the Example app they are displayed only to assist developer testing. You should not display this sensitive information in your application
+**Note that webRTCAccessKey, apiAccessKey and WebRTC Token should not ever be displayed and should be treated as sensitive data. In the Example app they are displayed only to assist developer testing. You should not display this sensitive information in your application.**
