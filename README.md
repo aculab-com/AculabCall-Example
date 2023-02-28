@@ -82,4 +82,4 @@ at the time of writing react-native-callkeep has an issue, that throws an error 
 
 The solution to the problem is described [here](https://github.com/react-native-webrtc/react-native-callkeep/issues/594#issuecomment-1196411702).
 
-### Note that and apiAccessKey should not ever be displayed and should be treated as sensitive data. In the Example app they are displayed only to assist developer testing. You should not display this sensitive information in your application
+**Note that webRTCAccessKey, apiAccessKey and WebRTC Token should not ever be displayed and should be treated as sensitive data. In the Example app they are displayed only to assist developer testing. You should not display this sensitive information in your application.**
